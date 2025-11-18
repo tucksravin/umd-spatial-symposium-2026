@@ -14,7 +14,7 @@
 
 
 <svelte:window bind:innerWidth={viewpoortWidth} />
-	<PrismicImage field={content.s1_image} class="w-full top-1/2 -translate-y-1/2 right-1/12 fixed opacity-40" />
+	<PrismicImage field={content.s1_image} class="w-full top-1/2 -translate-y-1/2 right-1/12 fixed opacity-40 blur-xs" />
 
 <section id="top" class="w-screen h-full min-h-lvh from-white/20 to-light/90 bg-linear-to-br py-32 relative add-noise overflow-y-visible">
 	<ContentWidth class="h-full">
@@ -25,7 +25,7 @@
 		</div>
 		<PrismicImage field={content.s1_image} class="md:hidden mt-6" />
 	</ContentWidth>
-	<PrismicImage field={content.s1_image} class="hidden w-1/2 top-1/2 -translate-y-1/2 right-0 md:block md:absolute" />
+	<PrismicImage field={content.s1_image} class="hidden w-1/2 top-1/2 -translate-y-1/2 right-0 md:block md:absolute blur-[1px]" />
 
 
 </section>
