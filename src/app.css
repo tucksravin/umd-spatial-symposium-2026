@@ -1,0 +1,250 @@
+
+/* Tailwind CSS v4 configuration */
+@import "tailwindcss";
+
+@theme {
+  --screen-sm: 560px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1340px;
+  
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-light: #7ba0c4;
+  --color-primary: blue;
+  --color-dark: #00263e;
+  
+  --transition-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --transition-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --transition-fast-slow: cubic-bezier(.5, 0, 0, 1);
+  
+  --height-screen-75: 75vh;
+  --height-screen-50: 50vh;
+  --height-screen-25: 25vh;
+  --height-screen-10: 10vh;
+  --height-screen-5: 5vh;
+  --height-112: 28rem;
+  --height-128: 32rem;
+  --height-144: 36rem;
+  --height-160: 40rem;
+  --height-192: 48rem;
+  --height-256: 64rem;
+  --height-384: 96rem;
+  --height-512: 128rem;
+  --height-640: 160rem;
+}
+
+
+
+body{
+    font-family: "helvetica", sans-serif;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.5,0,0,1);
+    transition-duration: 500ms;
+    max-width: 100vw;
+    overflow-x: clip;
+    scrollbar-width: none !important;
+    overflow-y: auto;
+    margin:0;
+}
+
+body::-webkit-scrollbar { 
+    display: none !important;  /* Safari and Chrome */
+}
+body::-webkit-scrollbar {
+    width: 0 !important;  /* Remove scrollbar space */  /* Optional: just make scrollbar invisible */
+}
+
+.bump, .negative-bump{
+    transition: transform 300ms ease-out;
+}
+
+.bump:active{
+    transform: translateY(-8px);
+}
+
+.negative-bump:active{
+    transform: translateY(8px);
+}
+
+@keyframes pos-y-wiggle {
+    0% {
+        transform: translateY(1px);
+    }
+    50% {
+        transform: translateY(-1px);
+    }
+    100% {
+        transform: translateY(1px);
+    }
+}
+.bob-on-hover:hover {
+    animation-name: pos-y-wiggle;
+    animation-play-state: running;
+}
+
+.bob-always{
+
+    animation: 1s infinite forwards pos-y-wiggle ease-out;
+}
+
+@keyframes pulse-scale {
+    0% {
+        transform: scale(1.01);
+    }
+    50% {
+        transform: scale(0.99);
+    }
+    100% {
+        transform: scale(1.01);
+    }
+}
+
+.pulse-always{
+    animation: 1.5s infinite forwards pulse-scale ease-out;
+}
+
+
+a, button{
+    cursor: pointer;
+}
+
+
+
+h1{
+
+font-family: 'museo-sans', sans-serif;
+font-size: 36px;
+font-style: normal;
+font-weight: 250;
+line-height: 150%; /* 54px */
+letter-spacing: 2.88px;
+text-transform: uppercase;
+}
+
+h2{
+    
+}
+
+h3{
+    
+}
+
+h4{
+    
+}
+
+h5{
+   
+}
+
+h6{
+    
+}
+
+p{
+    
+}
+
+.label{
+    
+}
+
+.copyright{
+
+}
+
+span{
+    display: inline-block;
+}
+
+@media only screen and (max-width:1024px) {
+    h1{
+        
+    }
+    
+    h2{
+    }
+    
+    h3{
+        
+    }
+    
+    h4{
+        
+    }
+    
+    h5{
+       
+    }
+    
+    
+    p{
+        
+    }
+    
+
+
+}
+
+@media only screen and (max-width:786px) {
+    h1{
+        
+    }
+    
+    h2{
+        
+    }
+    
+    h3{
+        
+    }
+    
+    h4{
+        
+    }
+    
+    h5{
+       
+    }
+    
+    
+    p{
+       
+    }
+    
+
+    
+}
+
+@media only screen and (max-width:560px) {
+    h1{
+        
+    }
+    
+    h2{
+        
+    }
+    
+    h3{
+    }
+    
+    h4{
+        
+    }
+    
+    h5{
+       
+    }
+    
+    
+    p{
+        
+    }
+    
+
+    
+}
+
