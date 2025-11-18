@@ -1,0 +1,85 @@
+{
+  "format": "custom",
+  "id": "talk",
+  "label": "talk",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID"
+        }
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "name",
+          "placeholder": ""
+        }
+      },
+      "start_time": {
+        "type": "Timestamp",
+        "config": {
+          "label": "start time",
+          "placeholder": ""
+        }
+      },
+      "subtitle": {
+        "type": "Text",
+        "config": {
+          "label": "subtitle",
+          "placeholder": ""
+        }
+      },
+      "long_desc": {
+        "type": "StructuredText",
+        "config": {
+          "label": "long desc",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "speaker": {
+        "type": "Link",
+        "config": {
+          "label": "speaker",
+          "select": "document",
+          "repeat": false,
+          "customtypes": [
+            {
+              "id": "speakers",
+              "fields": [
+                "name",
+                "title",
+                "organization",
+                "headshot",
+                "bio",
+                "talk_description"
+              ]
+            }
+          ]
+        }
+      },
+      "sponsor": {
+        "type": "Link",
+        "config": {
+          "label": "sponsor",
+          "select": "document",
+          "repeat": false,
+          "customtypes": []
+        }
+      }
+    }
+  }
+}
