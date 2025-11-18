@@ -25,7 +25,7 @@
 		</div>
 		<PrismicImage field={content.s1_image} class="md:hidden mt-6" />
 	</ContentWidth>
-	<PrismicImage field={content.s1_image} class="hidden md:w-1/2 top-1/2 md:-translate-y-1/2 right-0 md:absolute" />
+	<PrismicImage field={content.s1_image} class="hidden w-1/2 top-1/2 -translate-y-1/2 right-0 md:block md:absolute" />
 
 
 </section>
