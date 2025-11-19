@@ -29,7 +29,7 @@
 
 
 </section>
-<section id="qr" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_75%_75%] pb-16 relative add-noise ">
+<section id="qr" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_75%] pb-16 relative add-noise ">
 	<ContentWidth class="flex flex-col items-center justify-center gap-12">
 	<h2 class="text-primary">{content.s2_rsvp_label}</h2>
 		<PrismicLink field={content.s2_qr_link} class="flex flex-col items-center">
@@ -37,4 +37,7 @@
 			<div>click here</div>
 		</PrismicLink>
 	</ContentWidth>
+</section>
+<section id="speakers" class="w-screen h-full min-h-lvh to-white/20 from-light/80 from-25% bg-radial-[at_50%_25%] py-32 relative add-noise overflow-y-visible">
+	<ContentWidth></ContentWidth>
 </section>

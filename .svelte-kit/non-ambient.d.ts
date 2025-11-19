@@ -42,6 +42,6 @@ declare module "$app/types" {
 		};
 		Pathname(): "/" | "/api" | "/api/" | "/api/preview" | "/api/preview/" | "/slice-simulator" | "/slice-simulator/" | `${string}` & {} | `${string}/` & {} | `${string}/${string}` & {} | `${string}/${string}/` & {};
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
-		Asset(): "/favicon.png" | "/robots.txt" | string & {};
+		Asset(): "/favicon.ico" | "/robots.txt" | string & {};
 	}
 }
