@@ -25,8 +25,8 @@
 	{/if}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
 </svelte:head>
-<main class="bg-light">
-	<Nav />
+<main class="bg-light scroll-smooth">
+
 
 	{@render children?.()}
 
