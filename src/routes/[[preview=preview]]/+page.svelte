@@ -1,10 +1,11 @@
 <script lang='ts'>
   import ContentWidth from '$lib/components/ContentWidth/ContentWidth.svelte';
   import { PrismicImage, PrismicLink, PrismicRichText } from '@prismicio/svelte';
-  import type { SpeakersDocument, SponsorsDocument } from '../../prismicio-types';
+  import type { SpeakersDocument, SponsorsDocument, SessionsDocument, TalkDocument } from '../../prismicio-types';
   import { fade, fly } from 'svelte/transition';
   import logo from "$lib/assets/logo.svg"
   import { onMount } from 'svelte';
+  import { asDate, isFilled } from '@prismicio/client';
   
   let { data } = $props();
   let viewportWidth = $state(1024);
@@ -22,6 +23,7 @@
   });
 
   let selectedSpeaker = $state<SpeakersDocument | null>(null);
+  let selectedSession = $state<SessionsDocument & { talks: TalkDocument[] } | null>(null);
   let mobileMenuOpen = $state(false);
   let activeSection = $state('top');
 
@@ -35,6 +37,11 @@
 
   let tierThreeSponsors: SponsorsDocument[] = [];
   sponsors.forEach((s)=>{if(s.data.tier!==1&&s.data.tier!==2)tierThreeSponsors.push(s)})
+
+  const sessions = data.sessions;
+  const talks = data.talks;
+
+  
   
   function openModal(speaker: SpeakersDocument) {
     selectedSpeaker = speaker;
@@ -46,9 +53,24 @@
     document.body.style.overflow = '';
   }
 
+  function openSessionModal(session: SessionsDocument & { talks: TalkDocument[] }) {
+    selectedSession = session;
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeSessionModal() {
+    selectedSession = null;
+    document.body.style.overflow = '';
+  }
+
   function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && selectedSpeaker) {
-      closeModal();
+    if (event.key === 'Escape') {
+      if (selectedSpeaker) {
+        closeModal();
+      }
+      if (selectedSession) {
+        closeSessionModal();
+      }
     }
   }
 
@@ -58,6 +80,19 @@
 
   function closeMobileMenu() {
     mobileMenuOpen = false;
+  }
+
+  function formatTime(date: Date | null) {
+    if (!date) return '';
+    return date.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true 
+    });
+  }
+
+  function getSpeakerById(id: string) {
+    return speakers.find(s => s.id === id);
   }
 
   onMount(() => {
@@ -95,7 +130,7 @@
 </script>
 
 {#if selectedSpeaker}
-
+  <!-- Speaker Modal Backdrop -->
   <!-- svelte-ignore a11y_click_events_have_key_events -->
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
@@ -104,17 +139,16 @@
     onclick={closeModal}
   ></div>
 
-  <!-- Modal -->
+  <!-- Speaker Modal -->
   <div transition:fly={{x:"-100%"}} class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
 	<ContentWidth>
     <div 
-      class="bg-white rounded-sm max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl pointer-events-auto"
+      class="bg-white rounded-sm w-full max-w-6xl max-h-[90vh] overflow-y-auto shadow-2xl pointer-events-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
     >
       <div class="sticky top-0 bg-white border-b border-black/10 px-6 py-4 flex items-center justify-end">
-
         <button 
           type="button"
           onclick={closeModal}
@@ -138,22 +172,127 @@
           
           <div class="flex-1 flex flex-col gap-4">
             <div>
-              <h3 class="text-black mb-2">{selectedSpeaker.data.name}</h3>
+              <h2 class="text-black mb-2">{selectedSpeaker.data.name}</h2>
               {#if selectedSpeaker.data.title}
-                <p class="text-primary">{selectedSpeaker.data.title}</p>
+                <h5 class="text-primary">{selectedSpeaker.data.title}</h5>
               {/if}
               {#if selectedSpeaker.data.organization}
-                <p class="text-black/60">{selectedSpeaker.data.organization}</p>
+                <h5 class="text-black/60">{selectedSpeaker.data.organization}</h5>
               {/if}
             </div>
             
             {#if selectedSpeaker.data.bio}
-              <div class="prose prose-sm max-w-none text-black/80">
+              <div class="text-black/80">
                 <PrismicRichText field={selectedSpeaker.data.bio} />
               </div>
             {/if}
           </div>
         </div>
+      </div>
+    </div>
+	</ContentWidth>
+  </div>
+{/if}
+
+{#if selectedSession}
+  <!-- Session Modal Backdrop -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div
+	transition:fade
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 cursor-pointer"
+    onclick={closeSessionModal}
+  ></div>
+
+  <!-- Session Modal -->
+  <div transition:fly={{y: 100}} class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+	<ContentWidth>
+    <div 
+      class="bg-white rounded-sm w-full max-w-6xl max-h-[90vh] overflow-y-auto shadow-2xl pointer-events-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="sticky top-0 bg-white border-b border-black/10 px-6 py-4 flex items-center justify-between">
+        <div>
+          <h3 class="text-primary">{selectedSession.data.name}</h3>
+          <p class="text-black/60 text-sm mt-1">
+            {formatTime(asDate(selectedSession.data.start))} - {formatTime(asDate(selectedSession.data.end))}
+          </p>
+        </div>
+        <button 
+          type="button"
+          onclick={closeSessionModal}
+          class="text-black/60 hover:text-black transition-colors p-2 rounded"
+          aria-label="Close modal"
+        >
+         <i class="fa-thin fa-sharp fa-close fa-2xl"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 md:p-8">
+    
+
+        {#if selectedSession.talks && selectedSession.talks.length > 0}
+          <div class="space-y-6">
+            <h4 class="text-primary">Talks in this session</h4>
+            
+            {#each selectedSession.talks as talk}
+          
+              
+              <div class="border-l-4 border-secondary pl-6 py-4">
+                <div class="flex flex-col md:flex-row gap-6">
+                  <div class="flex-1">
+                    <div class="flex items-start justify-between gap-4 mb-3">
+                      <h5 class="text-black flex-1">{talk.data.name}</h5>
+                      <span class="text-black/60 text-sm whitespace-nowrap">
+                        {formatTime(asDate(talk.data.start_time))}
+                      </span>
+                    </div>
+                    
+                    {#if isFilled.richText(talk.data.long_desc)}
+                      <div class="text-black/70 text-sm mb-4">
+                        <PrismicRichText field={talk.data.long_desc} />
+                      </div>
+                    {/if}
+
+                    {#if isFilled.contentRelationship(talk.data.speaker)}
+					    {@const speaker = getSpeakerById(talk.data.speaker?.id || '')}
+						{#if speaker}
+                      <button 
+                        type="button"
+                        onclick={() => {
+                          closeSessionModal();
+                          openModal(speaker);
+                        }}
+                        class="flex items-center gap-3 group hover:opacity-80 transition"
+                      >
+                        {#if speaker.data.headshot}
+                          <div class="w-12 h-12 rounded-full overflow-hidden bg-light/40">
+                            <PrismicImage 
+                              field={speaker.data.headshot} 
+                              class="w-full h-full object-cover" 
+                            />
+                          </div>
+                        {/if}
+                        <div class="text-left">
+                          <div class="text-sm font-medium text-black group-hover:text-primary transition">
+                            {speaker.data.name}
+                          </div>
+                          {#if speaker.data.organization}
+                            <div class="text-xs text-black/60">
+                              {speaker.data.organization}
+                            </div>
+                          {/if}
+                        </div>
+                      </button>
+					  {/if}
+                    {/if}
+                  </div>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
       </div>
     </div>
 	</ContentWidth>
@@ -173,16 +312,17 @@
       {#each navLinks as link}
         <a 
           href={link.href} 
-          class="bump transition hover:opacity-80 active:-translate-y-1"
-          class:text-secondary={activeSection === link.href.substring(1)}
+          class="bump transition hover:opacity-80 active:-translate-y-0.5"
+          class:text-primary={activeSection === link.href.substring(1)}
           class:text-dark={activeSection !== link.href.substring(1)}
         >
           {link.label}
         </a>
       {/each}
+	  <div class="h-8 w-0.5 mx-4 bg-light"></div>
       <a 
         href="https://app.certain.com/profile/form/index.cfm?PKformID=0x3463378abcd" 
-        class="bump text-primary hover:opacity-80 active:-translate-y-1 transition font-semibold"
+        class="text-primary w-fit hover:bg-primary hover:text-white transition active:-translate-y-1 py-3 px-4 rounded-sm bg-light"
       >
         RSVP
       </a>
@@ -192,7 +332,7 @@
     <div class="lg:hidden flex items-center gap-4">
       <a 
         href="https://app.certain.com/profile/form/index.cfm?PKformID=0x3463378abcd" 
-        class="bump text-primary hover:opacity-80 active:-translate-y-1 transition font-semibold"
+        class="text-primary w-fit hover:bg-primary hover:text-white transition active:-translate-y-1 py-3 px-4 rounded-sm bg-light"
       >
         RSVP
       </a>
@@ -237,7 +377,7 @@
 <section id="top" class="w-screen h-full min-h-lvh to-white/20 from-light/80 from-25% bg-radial-[at_75%_25%] py-32 pt-48 relative add-noise overflow-y-visible">
   <ContentWidth class="h-full">
     <div class="md:w-1/2 flex flex-col md:pt-32 md:pr-16">
-      <h3 class="text-primary">{content.s1_eyebrow}</h3>
+      <h2 class="text-primary">{content.s1_eyebrow}</h2>
       <h1 class="text-black">{content.s1_title}</h1>
       <p class="mt-4">{content.s1_dates}</p>
     </div>
@@ -248,7 +388,7 @@
 
 <section id="qr" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_75%] pb-16 relative add-noise">
   <ContentWidth class="flex flex-col items-center justify-center gap-12">
-    <h2 class="text-primary">{content.s2_rsvp_label}</h2>
+    <h3 class="text-primary">{content.s2_rsvp_label}</h3>
     <PrismicLink field={content.s2_qr_link} class="flex flex-col items-center">
       <PrismicImage field={content.s2_qr} class="aspect-square w-full max-w-[66lvh]" />
       <div>click here</div>
@@ -256,12 +396,73 @@
   </ContentWidth>
 </section>
 <section id="schedule" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_25%] py-32 relative add-noise overflow-y-visible">
-	 <ContentWidth class="flex"> <h3 class="text-primary">Schedule TBD</h3></ContentWidth>
+  <ContentWidth class="flex flex-col gap-12"> 
+    <h2 class="text-primary">Schedule</h2>
+    
+    {#if sessions && sessions.length > 0}
+      {@const sessionsByDate = sessions.reduce((acc, session) => {
+        const date = asDate(session.data.start);
+        if (date) {
+          const dateKey = date.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+          if (!acc[dateKey]) {
+            acc[dateKey] = [];
+          }
+          acc[dateKey].push(session);
+        }
+        return acc;
+      }, {} as Record<string, typeof sessions>)}
+      
+      <div class="space-y-12">
+        {#each Object.entries(sessionsByDate) as [date, dateSessions]}
+          <div class="space-y-4">
+            <h4 class="text-primary">{date}</h4>
+            
+            {#each dateSessions as session}
+              <button
+                type="button"
+                onclick={() => openSessionModal(session)}
+                class="w-full text-left bg-white/60 backdrop-blur-sm rounded-sm p-6 shadow-md hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary"
+              >
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div class="flex-1">
+                    <h4 class="text-black group-hover:text-primary transition">
+                      {session.data.name}
+                    </h4>
+                    {#if session.talks && session.talks.length > 0}
+                      <div class="text-black/50 text-sm mt-3">
+                        {session.talks.length} {session.talks.length === 1 ? 'talk' : 'talks'}
+                      </div>
+                    {/if}
+                  </div>
+                  
+                  <div class="flex flex-col items-end gap-2 shrink-0">
+                    <div class="text-primary font-medium">
+                      {formatTime(asDate(session.data.start))}
+                    </div>
+                    <div class="text-black/60 text-sm">
+                      {formatTime(asDate(session.data.end))}
+                    </div>
+                  </div>
+                </div>
+              </button>
+            {/each}
+          </div>
+        {/each}
+      </div>
+    {:else}
+      <div class="text-black/60">Schedule coming soon</div>
+    {/if}
+  </ContentWidth>
 </section>
 
 <section id="featured-presenters" class="w-screen h-full min-h-lvh to-white/20 from-light/80 from-25% bg-radial-[at_50%_75%] py-32 relative add-noise overflow-y-visible">
   <ContentWidth class="flex flex-col gap-12">
-    <h3 class="text-primary">Presenters</h3>
+    <h2 class="text-primary">Presenters</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {#each featuredSpeakers as speaker}
         <button 
@@ -275,11 +476,11 @@
               class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
             />
           </div>
-          <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-1.5">
             <h4 class="text-black">{speaker.data.name}</h4>
 
             {#if speaker.data.organization}
-              <p class="text-primary">{speaker.data.organization}</p>
+              <h5 class="text-primary">{speaker.data.organization}</h5>
             {/if}
           </div>
         </button>
@@ -288,9 +489,18 @@
 	<a href="/#all-presenters" class="text-primary w-fit hover:bg-primary hover:text-white transition active:-translate-y-1 py-3 px-4 rounded-sm bg-light shadow-md hover:shadow-xl"> See All Speakers</a>
   </ContentWidth>
 </section>
+
 <section id="map" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_25%] py-32 relative add-noise overflow-y-visible">
-	 <ContentWidth class="flex"> <h3 class="text-primary">Map TBD</h3></ContentWidth>
+	 <ContentWidth class="flex flex-col gap-12"> 
+		<h2 class="text-primary">Map TBD</h2>
+		<PrismicImage field={content.s5_map} class="w-full" />
+		<div class="flex flex-col gap-1">
+		<h4 class="text-primary mb-4">Address:</h4>
+		<PrismicRichText field={content.s5_address} />
+		</div>
+	</ContentWidth>
 </section>
+
 <section id="sponsors" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_75%] py-32 relative add-noise overflow-y-visible">
 	 <ContentWidth class=""> 
 		<h2 class="text-primary">We Are Supported By:</h2>
@@ -327,7 +537,7 @@
 
 <section id="all-presenters" class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_25%] py-32 relative add-noise overflow-y-visible">
   <ContentWidth class="flex flex-col gap-12">
-    <h3 class="text-primary">All Speakers</h3>
+    <h2 class="text-primary">All Speakers</h2>
     <div class="flex flex-wrap justify-center gap-8">
       {#each speakers as speaker}
         <button 
@@ -341,10 +551,10 @@
               class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
             />
           </div>
-          <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-1.5">
             <h4 class="text-black">{speaker.data.name}</h4>
             {#if speaker.data.organization}
-              <p class="text-primary">{speaker.data.organization}</p>
+              <h5 class="text-primary">{speaker.data.organization}</h5>
             {/if}
           </div>
         </button>

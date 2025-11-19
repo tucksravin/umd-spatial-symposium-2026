@@ -172,6 +172,28 @@ interface HomeDocumentData {
   >;
 
   /**
+   * s5_map field in *home*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.s5_map
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  s5_map: prismic.ImageField<never>;
+
+  /**
+   * s5_address field in *home*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.s5_address
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  s5_address: prismic.RichTextField;
+
+  /**
    * Slice Zone field in *home*
    *
    * - **Field Type**: Slice Zone
@@ -297,6 +319,60 @@ interface PageDocumentData {
  */
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
+
+/**
+ * Content for sessions documents
+ */
+interface SessionsDocumentData {
+  /**
+   * name field in *sessions*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sessions.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * start field in *sessions*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sessions.start
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   */
+  start: prismic.TimestampField;
+
+  /**
+   * end field in *sessions*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sessions.end
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   */
+  end: prismic.TimestampField;
+}
+
+/**
+ * sessions document from Prismic
+ *
+ * - **API ID**: `sessions`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SessionsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<SessionsDocumentData>,
+    "sessions",
+    Lang
+  >;
 
 /**
  * Content for speakers documents
@@ -579,6 +655,7 @@ export type TalkDocument<Lang extends string = string> =
 export type AllDocumentTypes =
   | HomeDocument
   | PageDocument
+  | SessionsDocument
   | SpeakersDocument
   | SponsorsDocument
   | TalkDocument;
@@ -610,6 +687,8 @@ declare module "@prismicio/client" {
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
+      SessionsDocument,
+      SessionsDocumentData,
       SpeakersDocument,
       SpeakersDocumentData,
       SponsorsDocument,
