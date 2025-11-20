@@ -683,7 +683,7 @@
 		
 		<div class="w-full flex flex-row flex-wrap items-center mt-12"> 
 			{#each tierThreeSponsors as sponsor, i }
-				<div class="w-full md:w-1/3 lg:w-1/5 aspect-square p-6 mx-auto">
+				<div class="w-full md:w-1/3 lg:w-1/4 aspect-square p-6 mx-auto">
 					<PrismicLink field={sponsor.data.website} class="w-full h-full bg-light border-dark border-4 rounded-md flex items-center justify-center group">
 						<PrismicImage field={sponsor.data.logo} class="w-5/6 transition-transform duration-300 group-hover:scale-107" />
 					</PrismicLink>
