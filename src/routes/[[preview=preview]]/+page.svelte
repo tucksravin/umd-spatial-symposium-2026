@@ -530,7 +530,7 @@
   {/if}
 </nav>
 
-<PrismicImage field={content.s1_image} class="w-full top-1/2 -translate-y-1/2 right-1/12 fixed opacity-40 blur-xs" />
+<PrismicImage field={content.backdrop} class="w-full top-1/2 -translate-y-1/2 right-1/12 fixed opacity-40 blur-xs" />
 
 <section id="top" class="w-screen h-full min-h-lvh to-white/20 from-light/80 from-25% bg-radial-[at_75%_25%] py-32 relative add-noise overflow-y-visible">
   <ContentWidth class="h-full">

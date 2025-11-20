@@ -76,6 +76,17 @@ type HomeDocumentDataSlicesSlice = never;
  */
 interface HomeDocumentData {
   /**
+   * backdrop field in *home*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.backdrop
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  backdrop: prismic.ImageField<never>;
+
+  /**
    * s1_image field in *home*
    *
    * - **Field Type**: Image
