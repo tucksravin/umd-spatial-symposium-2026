@@ -556,11 +556,11 @@ export type SponsorsDocument<Lang extends string = string> =
   >;
 
 /**
- * Content for talk documents
+ * Content for events documents
  */
 interface TalkDocumentData {
   /**
-   * name field in *talk*
+   * name field in *events*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -571,7 +571,18 @@ interface TalkDocumentData {
   name: prismic.KeyTextField;
 
   /**
-   * start time field in *talk*
+   * location field in *events*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: talk.location
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  location: prismic.KeyTextField;
+
+  /**
+   * start time field in *events*
    *
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
@@ -582,7 +593,7 @@ interface TalkDocumentData {
   start_time: prismic.TimestampField;
 
   /**
-   * subtitle field in *talk*
+   * subtitle field in *events*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -593,7 +604,7 @@ interface TalkDocumentData {
   subtitle: prismic.KeyTextField;
 
   /**
-   * long desc field in *talk*
+   * long desc field in *events*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -604,7 +615,7 @@ interface TalkDocumentData {
   long_desc: prismic.RichTextField;
 
   /**
-   * image field in *talk*
+   * image field in *events*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -615,7 +626,7 @@ interface TalkDocumentData {
   image: prismic.ImageField<never>;
 
   /**
-   * speaker field in *talk*
+   * speaker field in *events*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
@@ -640,7 +651,7 @@ interface TalkDocumentData {
   >;
 
   /**
-   * sponsor field in *talk*
+   * sponsor field in *events*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
@@ -649,10 +660,21 @@ interface TalkDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/content-relationship
    */
   sponsor: prismic.ContentRelationshipField;
+
+  /**
+   * accent color field in *events*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: talk.accent_color
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  accent_color: prismic.SelectField<"yellow" | "red" | "grey">;
 }
 
 /**
- * talk document from Prismic
+ * events document from Prismic
  *
  * - **API ID**: `talk`
  * - **Repeatable**: `true`

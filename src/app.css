@@ -14,7 +14,9 @@
   --color-white: #fff;
   --color-light: #e6e6e6;
   --color-primary: #e21833;
+  --color-red:#e21833;
   --color-secondary: #f8d347;
+  --color-yellow:#f8d347;
   --color-dark: #454545;
   
   --transition-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);

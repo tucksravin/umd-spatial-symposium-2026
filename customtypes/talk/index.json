@@ -1,7 +1,7 @@
 {
   "format": "custom",
   "id": "talk",
-  "label": "talk",
+  "label": "events",
   "repeatable": true,
   "status": true,
   "json": {
@@ -16,6 +16,13 @@
         "type": "Text",
         "config": {
           "label": "name",
+          "placeholder": ""
+        }
+      },
+      "location": {
+        "type": "Text",
+        "config": {
+          "label": "location",
           "placeholder": ""
         }
       },
@@ -78,6 +85,14 @@
           "select": "document",
           "repeat": false,
           "customtypes": []
+        }
+      },
+      "accent_color": {
+        "type": "Select",
+        "config": {
+          "label": "accent color",
+          "placeholder": "",
+          "options": ["yellow", "red", "grey"]
         }
       }
     }
