@@ -175,10 +175,9 @@
   const navLinks = [
     { href: "#top", label: "Home" },
     { href: "#schedule", label: "Schedule" },
-    { href: "#featured-presenters", label: "Presenters" },
+    { href: "#all-presenters", label: "Presenters" },
     { href: "#map", label: "Map" },
     { href: "#sponsors", label: "Sponsors" },
-    { href: "#all-presenters", label: "All Speakers" },
   ];
 </script>
 
@@ -706,17 +705,17 @@
 </section>
 
 <section
-  id="featured-presenters"
+  id="all-presenters"
   class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_75%] pt-24 pb-6 relative add-noise overflow-y-visible"
 >
   <ContentWidth class="flex flex-col gap-12">
-    <h2 class="text-primary">Presenters</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {#each featuredSpeakers as speaker}
+    <h2 class="text-primary">All Speakers</h2>
+    <div class="flex flex-wrap justify-center gap-8">
+      {#each speakers as speaker}
         <button
           type="button"
           onclick={() => openModal(speaker)}
-          class="flex flex-col gap-4 group text-left cursor-pointer transition-opacity hover:opacity-90 rounded-xs"
+          class="flex flex-col gap-4 group text-left cursor-pointer transition-opacity hover:opacity-90 rounded-xs w-full md:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)]"
         >
           <div class="aspect-square overflow-hidden rounded-xs bg-light/40">
             <PrismicImage
@@ -726,7 +725,6 @@
           </div>
           <div class="flex flex-col gap-1.5">
             <h4 class="text-black">{speaker.data.name}</h4>
-
             {#if speaker.data.organization}
               <h6 class="text-primary">{speaker.data.organization}</h6>
             {/if}
@@ -734,14 +732,9 @@
         </button>
       {/each}
     </div>
-    <a
-      href="/#all-presenters"
-      class="text-primary w-fit hover:bg-primary hover:text-white transition active:-translate-y-1 py-3 px-4 rounded-sm bg-light shadow-md hover:shadow-xl"
-    >
-      See All Speakers</a
-    >
   </ContentWidth>
 </section>
+
 
 <section
   id="map"
@@ -812,33 +805,3 @@
   </ContentWidth>
 </section>
 
-<section
-  id="all-presenters"
-  class="w-screen to-white/20 from-light/80 from-25% bg-radial-[at_50%_25%] pt-24 pb-6 relative add-noise overflow-y-visible"
->
-  <ContentWidth class="flex flex-col gap-12">
-    <h2 class="text-primary">All Speakers</h2>
-    <div class="flex flex-wrap justify-center gap-8">
-      {#each speakers as speaker}
-        <button
-          type="button"
-          onclick={() => openModal(speaker)}
-          class="flex flex-col gap-4 group text-left cursor-pointer transition-opacity hover:opacity-90 rounded-xs w-full md:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)]"
-        >
-          <div class="aspect-square overflow-hidden rounded-xs bg-light/40">
-            <PrismicImage
-              field={speaker.data.headshot}
-              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h4 class="text-black">{speaker.data.name}</h4>
-            {#if speaker.data.organization}
-              <h6 class="text-primary">{speaker.data.organization}</h6>
-            {/if}
-          </div>
-        </button>
-      {/each}
-    </div>
-  </ContentWidth>
-</section>
