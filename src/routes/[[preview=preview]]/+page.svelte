@@ -671,27 +671,41 @@
                 onclick={() => openSessionModal(session)}
                 class="w-full text-left bg-white/60 backdrop-blur-sm rounded-sm p-6 shadow-md hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary"
               >
-                <div class="flex flex-row items-center justify-between gap-4">
-                  <div class="flex-1">
-                    <h4 class="text-black group-hover:text-primary transition">
-                      {session.data.name}
-                    </h4>
-                    {#if session.talks && session.talks.length > 0}
-                      <div class="text-black/50 text-sm mt-3">
-                        {session.talks.length}
-                        {session.talks.length === 1 ? "event" : "events"}
+                <div class="flex flex-col gap-4">
+                  <div class="flex flex-row items-center justify-between gap-4">
+                    <div class="flex-1">
+                      <h4 class="text-black group-hover:text-primary transition">
+                        {session.data.name}
+                      </h4>
+                    </div>
+
+                    <div class="flex flex-col items-end gap-2 shrink-0">
+                      <div class="text-primary font-medium">
+                        {formatTime(asDate(session.data.start))}
                       </div>
-                    {/if}
+                      <div class="text-black/60 text-sm">
+                        {formatTime(asDate(session.data.end))}
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="flex flex-col items-end gap-2 shrink-0">
-                    <div class="text-primary font-medium">
-                      {formatTime(asDate(session.data.start))}
+                  {#if session.talks && session.talks.length > 0}
+                    <div class="space-y-2 mt-2">
+                      {#each session.talks as talk}
+                        {@const speaker = isFilled.contentRelationship(talk.data.speaker)?getSpeakerById(talk.data.speaker?.id) :""}
+                        <div class="text-sm text-black/70">
+                          <span class="font-medium text-primary">
+                            {formatTime(asDate(talk.data.start_time))}
+                          </span>
+                          <span class="mx-1">•</span>
+                          <span class="text-black -mr-1">{talk.data.name}</span>
+                          {#if speaker}
+                            <span class="text-black">,</span> <span class="text-black/60"> {speaker.data.name}</span>
+                          {/if}
+                        </div>
+                      {/each}
                     </div>
-                    <div class="text-black/60 text-sm">
-                      {formatTime(asDate(session.data.end))}
-                    </div>
-                  </div>
+                  {/if}
                 </div>
               </button>
             {/each}
