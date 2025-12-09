@@ -742,7 +742,7 @@
 >
   <ContentWidth class="flex flex-col gap-12">
     <h2 class="text-primary">Map</h2>
-    <PrismicImage field={content.s5_map} class="w-full" />
+    <PrismicImage field={content.s5_map} class="w-full rounded-lg" />
     <div class="flex flex-col gap-1">
       <h4 class="text-primary mb-4">Address:</h4>
       <PrismicRichText field={content.s5_address} />

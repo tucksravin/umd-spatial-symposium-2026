@@ -33,9 +33,9 @@ export async function load({ fetch, cookies }) {
             const talkTime = asDate(talk.data.start_time);
             
             // Skip if talk time is invalid
-            if (!talkTime) return false;
+            if (!talkTime||talkTime===asDate(session.data.end)) return false;
             
-            return talkTime >= sessionStart && talkTime <= sessionEnd;
+            return talkTime >= sessionStart && talkTime < sessionEnd;
         }).sort((a, b) => {
             const timeA = asDate(a.data.start_time);
             const timeB = asDate(b.data.start_time);
