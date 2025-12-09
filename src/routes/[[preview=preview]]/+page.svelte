@@ -698,9 +698,9 @@
                             {formatTime(asDate(talk.data.start_time))}
                           </span>
                           <span class="mx-1">•</span>
-                          <span class="text-black -mr-1">{talk.data.name}</span>
+                          <span class="text-black">{talk.data.name}</span>
                           {#if speaker}
-                            <span class="text-black">,</span> <span class="text-black/60"> {speaker.data.name}</span>
+                            <span class="mx-1">•</span> <span class="text-black/60"> {speaker.data.name}</span>
                           {/if}
                         </div>
                       {/each}
