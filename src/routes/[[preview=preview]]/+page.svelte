@@ -278,7 +278,7 @@
     class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
   >
     <div
-      class="bg-white rounded-sm w-full max-w-6xl max-h-[90vh] overflow-y-auto shadow-2xl pointer-events-auto"
+      class="bg-white rounded-sm w-full max-w-6xl max-h-[90svh] overflow-y-auto shadow-2xl pointer-events-auto"
       role="dialog"
       aria-modal="true"
     >
@@ -319,23 +319,15 @@
                         class="text-left flex-1 group"
                       >
                         <h5
-                          class="text-black group-hover:text-primary transition cursor-pointer"
+                          class="text-black group-hover:text-primary transition cursor-pointer text-sm md:text-base"
                         >
                           {talk.data.name}
                         </h5>
                       </button>
-                      <div class="text-right shrink-0">
-                        <span class="text-black/60 text-sm whitespace-nowrap">
-                          {formatTime(asDate(talk.data.start_time))}
-                        </span>
-                        {#if talk.data.location}
-                          <div class="text-black/50 text-xs mt-1">
-                            {talk.data.location}
-                          </div>
-                        {/if}
-                      </div>
+                      
                     </div>
-                    <div class="flex flex-col gap-3 justify-between">
+                    <div class="flex flex-col md:flex-row gap-3 md:justify-between">
+                      <div>
                       {#if isFilled.richText(talk.data.long_desc)}
                         <div class="text-black/70 text-sm mb-4">
                           {talk.data.subtitle}
@@ -352,11 +344,11 @@
                             onclick={() => {
                               openModal(speaker, "session");
                             }}
-                            class="items-center gap-3 group hover:opacity-80 transition hidden md:flex"
+                            class="flex items-center gap-3 group hover:opacity-80 transition"
                           >
                             {#if speaker.data.headshot}
                               <div
-                                class="w-12 h-12 rounded-full overflow-hidden bg-light/40"
+                                class="w-12 h-12 rounded-full overflow-hidden bg-light/40 shrink-0"
                               >
                                 <PrismicImage
                                   field={speaker.data.headshot}
@@ -379,6 +371,17 @@
                           </button>
                         {/if}
                       {/if}
+                      </div>
+                      <div class="md:text-right text-left">
+                        <span class="text-black/60 text-sm whitespace-nowrap">
+                          {formatTime(asDate(talk.data.start_time))}
+                        </span>
+                        {#if talk.data.location}
+                          <div class="text-black/50 text-xs mt-1">
+                            {talk.data.location}
+                          </div>
+                        {/if}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -411,10 +414,10 @@
       aria-modal="true"
     >
       <div
-        class="sticky top-0 bg-white border-b border-black/10 px-3 md:px-8 py-4 flex items-start justify-between"
+        class="sticky top-0 bg-white border-b border-black/10 px-3 md:px-8 py-4 flex flex-col md:flex-row md:items-start items-end justify-between gap-2"
       >
-        <div class="flex-1 pr-4">
-          <h4 class="text-primary">{selectedTalk.data.name}</h4>
+        <div class="flex-1 w-full md:pr-4 order-2 md:order-1">
+          <h4 class="text-primary text-base md:text-xl">{selectedTalk.data.name}</h4>
           {#if selectedTalk.data.subtitle}
             <p class="text-black/70 text-sm mt-1">
               {selectedTalk.data.subtitle}
@@ -441,7 +444,7 @@
               }
             }
           }}
-          class="text-black/60 hover:text-black transition-colors h-fit w-fit mt-3"
+          class="text-black/60 hover:text-black transition-colors h-fit w-fit order-1 md:order-2 self-end md:mt-3"
           aria-label={previousModal === "session"
             ? "Back to session"
             : "Close modal"}
@@ -477,7 +480,7 @@
               >
                 {#if speaker.data.headshot}
                   <div
-                    class="w-16 h-16 rounded-full overflow-hidden bg-light/40"
+                    class="w-16 h-16 rounded-full overflow-hidden bg-light/40 shrink-0"
                   >
                     <PrismicImage
                       field={speaker.data.headshot}
@@ -672,7 +675,7 @@
                 class="w-full text-left bg-white/60 backdrop-blur-sm rounded-sm p-6 shadow-md hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary"
               >
                 <div class="flex flex-col gap-4">
-                  <div class="flex flex-row items-center justify-between gap-4">
+                  <div class="flex flex-row items-start justify-between gap-4">
                     <div class="flex-1">
                       <h4 class="text-black group-hover:text-primary transition">
                         {session.data.name}
@@ -690,18 +693,21 @@
                   </div>
 
                   {#if session.talks && session.talks.length > 0}
-                    <div class="space-y-2 mt-2">
+                    <div class="flex flex-col gap-3 mt-2 text-black/80">
                       {#each session.talks as talk}
                         {@const speaker = isFilled.contentRelationship(talk.data.speaker)?getSpeakerById(talk.data.speaker?.id) :""}
-                        <div class="text-sm text-black/70">
-                          <span class="font-medium text-primary">
+                        <div>
+                        <div >
+                          <span class="text-primary font-medium">
                             {formatTime(asDate(talk.data.start_time))}
                           </span>
-                          <span class="mx-1">•</span>
-                          <span class="text-black">{talk.data.name}</span>
-                          {#if speaker}
-                            <span class="mx-1">•</span> <span class="text-black/60"> {speaker.data.name}</span>
-                          {/if}
+                           {#if speaker}
+                          <span class="mx-1 ">•</span>
+                          <span class="text-black">{speaker.data.name}</span>
+                         {/if}
+                        </div>
+                            <span class="text-black/60 mt-1"> {talk.data.name}</span>
+                          
                         </div>
                       {/each}
                     </div>
