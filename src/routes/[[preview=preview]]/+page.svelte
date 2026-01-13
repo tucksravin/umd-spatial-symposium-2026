@@ -57,6 +57,10 @@
     if (s.data.tier !== 1 && s.data.tier !== 2) tierThreeSponsors.push(s);
   });
 
+  tierOneSponsors.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+  tierTwoSponsors.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+  tierThreeSponsors.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
   const sessions = data.sessions;
   const talks = data.talks;
 

@@ -44,6 +44,13 @@
           "allowText": false,
           "repeat": false
         }
+      },
+      "order": {
+        "type": "Number",
+        "config": {
+          "label": "order",
+          "placeholder": "lower numbers appear first"
+        }
       }
     }
   }

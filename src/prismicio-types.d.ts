@@ -537,6 +537,17 @@ interface SponsorsDocumentData {
     prismic.FieldState,
     never
   >;
+
+  /**
+   * order field in *sponsors*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: lower numbers appear first
+   * - **API ID Path**: sponsors.order
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  order: prismic.NumberField;
 }
 
 /**
